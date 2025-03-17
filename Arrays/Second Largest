@@ -20,7 +20,7 @@ class Solution {
                 slargest = largest;
                 largest = arr[i];
             }
-            else if(arr[i] != largest && arr[i]>slargest)
+            else if(arr[i] != largest && arr[i]>slargest)                               //else if(arr[i]>slargest && arr[i]<largest) (works)
             {
                 slargest = arr[i];
             }
