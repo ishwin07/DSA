@@ -1,0 +1,38 @@
+class Solution {
+  public:
+    static int t[1002][1002];
+    
+    Solution()
+    {
+        memset(t,-1,sizeof(t));
+    }
+    
+    int knapsackHelper(int W,vector<int> &val,vector<int> &wt,int n)
+    {
+        if(n==0 || W==0)
+        return 0;
+        
+        if(t[n][W]!=-1)
+        return t[n][W];
+        
+        if(wt[n-1]<=W)
+        {
+            return t[n][W] = max(val[n-1]+knapsackHelper(W-wt[n-1],val,wt,n-1),knapsackHelper(W,val,wt,n-1));
+        }
+        
+        else
+        {
+            return t[n][W] = knapsackHelper(W,val,wt,n-1);
+        }
+    }
+    
+    
+    int knapsack(int W, vector<int> &val, vector<int> &wt) {
+        // code here
+        int n = wt.size();
+        return knapsackHelper(W,val,wt,n);
+        
+    }
+};
+
+int Solution :: t[1002][1002];
