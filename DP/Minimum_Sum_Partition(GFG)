@@ -1,0 +1,41 @@
+class Solution {
+
+  public:
+    int minDifference(vector<int>& arr) {
+        // Your code goes here
+        
+        int range=0;
+        int n = arr.size();
+        for(int i=0;i<n;i++)
+        {
+             range = range + arr[i];
+        }
+        
+        
+        vector<vector<bool>> dp(n+1,vector<bool>(range+1,false));
+        
+        
+        for (int i = 0; i <= n; ++i) dp[i][0] = true;
+        
+        for(int i=1;i<=n;i++)
+        {
+            for(int j=1;j<=range;j++)
+            {
+                if(arr[i-1]<=j)
+                dp[i][j] = dp[i-1][j-arr[i-1]] || dp[i-1][j];
+                else
+                dp[i][j] = dp[i-1][j];
+            }
+        }
+        
+        
+        int mini = INT_MAX;
+        for(int m=0;m<=range/2;m++)
+        {
+            if(dp[n][m]==true)
+            mini = min((range - 2*m),mini) ;
+        }
+        
+        return mini;
+    }
+};
