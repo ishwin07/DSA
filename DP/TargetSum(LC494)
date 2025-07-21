@@ -1,0 +1,41 @@
+class Solution {
+private:
+    int subsetSumDiff(vector<int>& nums, int S1,int n)
+    {
+        vector<vector<int>> dp(n+1,vector<int>(S1+1,0));
+
+        for(int i=0;i<=n;i++)
+        {
+            dp[i][0] = 1;
+        }
+
+        for(int i=1;i<=n;i++)
+        {
+            for(int j=0;j<=S1;j++)
+            {
+                if(nums[i-1]<=j)
+                dp[i][j] = dp[i-1][j-nums[i-1]] + dp[i-1][j];
+                else
+                dp[i][j] = dp[i-1][j];
+            }
+        }
+        return dp[n][S1];
+    }
+public:
+    int findTargetSumWays(vector<int>& nums, int target) {
+        int n = nums.size();
+        int sum=0;
+        for(int i=0;i<n;i++)
+        {
+            sum = sum+nums[i];
+        }
+
+        if(abs(target)>sum || (target+sum)%2!=0) return 0;
+
+        int S1 = (target+sum)/2;
+
+        int ans = subsetSumDiff(nums,S1,n);
+
+        return ans;
+    }
+};
