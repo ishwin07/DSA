@@ -1,0 +1,36 @@
+class Solution {
+  private:
+  int helperDel(string &s,string &revs)
+  {
+      int n = s.size();
+      int m = revs.size();
+      
+      vector<vector<int>> dp(n+1,vector<int> (m+1,0));
+      
+      for(int i=1;i<n+1;i++)
+      {
+          for(int j=1;j<m+1;j++)
+          {
+              if(s[i-1] == revs[j-1])
+              dp[i][j] = 1+dp[i-1][j-1];
+              else
+              dp[i][j] = max(dp[i-1][j],dp[i][j-1]);
+          }
+      }
+      
+      return dp[n][m];
+      
+  }
+  public:
+    int minDeletions(string s) {
+        // code here
+        
+        string revs = s;
+        reverse(revs.begin(),revs.end());
+        
+        int ans = helperDel(s,revs);
+        
+        return (s.size()-ans);
+        
+    }
+};
