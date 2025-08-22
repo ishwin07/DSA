@@ -1,0 +1,87 @@
+class Solution {
+  public:
+  int prir(char ch)
+        {
+            if(ch == '^') return 3;
+            else if(ch=='/' || ch=='*') return 2;
+            else if(ch=='+' || ch=='-') return 1;
+            else
+            return -1;
+        }
+        
+    string infixToPrefix(string s) {
+        // code here
+        string revs = s;
+        reverse(revs.begin(), revs.end());
+        
+        stack<char> st;
+        string result;
+        
+        for(int i=0;i<revs.size();i++)
+        {
+            if(revs[i]==')')
+            revs[i]='(';
+            else if(revs[i]=='(')
+            revs[i]=')';
+        }
+        
+        int n = revs.length();
+        
+        int i=0;
+        while(i<n)
+        {
+            if(revs[i]>='a' && revs[i]<='z' || revs[i]>='A' && revs[i]<='Z' || revs[i]>='0' && revs[i]<='9')
+        //   if (isalnum(revs[i]))
+            result+=revs[i];
+            
+            else if(revs[i]=='(') st.push(revs[i]);
+            
+            else if(revs[i]==')')
+            {
+                while(!st.empty() && st.top()!='(')
+                {
+                    result+=st.top();
+                    st.pop();
+                }
+                
+                if (!st.empty() && st.top() == '(') {  
+        st.pop();   // only pop '(' if present
+    }
+            }
+            
+            else{
+                if(revs[i] == '^')
+                {
+            while(!st.empty() && prir(revs[i])<=prir(st.top()))
+   
+            {
+                result+=st.top();
+                st.pop();
+            }
+                }
+                else
+                {
+                    while(!st.empty() && prir(revs[i])<prir(st.top()))
+   
+            {
+                result+=st.top();
+                st.pop();
+            }
+                }
+            st.push(revs[i]);
+            }
+            
+            i++;
+            
+        }
+        
+         while (!st.empty()) {
+            result += st.top();
+            st.pop();
+            }
+            
+            reverse(result.begin(),result.end());
+        return result;
+        
+    }
+};
