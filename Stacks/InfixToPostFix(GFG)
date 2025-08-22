@@ -1,0 +1,60 @@
+class Solution {
+  public:
+     int prir(char ch)
+        {
+            if(ch == '^') return 3;
+            else if(ch=='/' || ch=='*') return 2;
+            else if(ch=='+' || ch=='-') return 1;
+            else
+            return -1;
+        }
+        
+    string infixToPostfix(string s) {
+        // code here
+        stack<char> st;
+        string result;
+        
+        int n = s.length();
+        
+        int i=0;
+        while(i<n)
+        {
+            if(s[i]>='a' && s[i]<='z' || s[i]>='A' && s[i]<='Z' || s[i]>='0' && s[i]<='9')
+            result+=s[i];
+            
+            else if(s[i]=='(') st.push(s[i]);
+            
+            else if(s[i]==')')
+            {
+                while(st.top()!='(')
+                {
+                    result+=st.top();
+                    st.pop();
+                }
+                st.pop();
+            }
+            
+            else
+            {while(!st.empty() && prir(s[i])<=prir(st.top()))
+            {
+                result+=st.top();
+                st.pop();
+            }
+            st.push(s[i]);
+            }
+            
+            i++;
+            
+        }
+        
+         while (!st.empty()) {
+            result += st.top();
+            st.pop();
+            }
+        return result;
+        
+        
+        
+        
+    }
+};
